@@ -1,5 +1,7 @@
-from selene import have, command
+from selene import have
 from selene.support.shared import browser
+
+todo_list = browser.all('#todo-list>li')
 
 
 def go_to():
@@ -8,23 +10,27 @@ def go_to():
     browser.should(have.js_returned(True, script_on_clear_completed))
 
 
-def typing(*texts: str):
+def adding(*texts: str):
     for text in texts:
         browser.element('#new-todo').type(text).press_enter()
 
 
 def should_have(*texts: str):
-    browser.all('#todo-list>li').should(have.exact_texts(*texts))
+    todo_list.should(have.exact_texts(*texts))
+
+
+def start_editing(text: str, new_text: str):
+    todo_list.element_by(have.exact_text(text)).double_click()
+    return todo_list.element_by(have.css_class('editing')) \
+        .element('.edit').type(new_text)
 
 
 def edit(text: str, new_text: str):
-    browser.all('#todo-list>li').element_by(have.exact_text(text)).double_click()
-    browser.all('#todo-list>li').element_by(have.css_class('editing')) \
-        .element('.edit').type(new_text).press_enter()
+    start_editing(text, new_text).press_enter()
 
 
 def toggle(text: str):
-    browser.all('#todo-list>li').element_by(have.exact_text(text)).element(".toggle").click()
+    todo_list.element_by(have.exact_text(text)).element(".toggle").click()
 
 
 def clear_completed():
@@ -32,11 +38,9 @@ def clear_completed():
 
 
 def cancel_edit(text: str, new_text: str):
-    browser.all('#todo-list>li').element_by(have.exact_text(text)).double_click()
-    browser.all('#todo-list>li').element_by(have.css_class('editing')) \
-        .element('.edit').type(new_text).press_escape()
+    start_editing(text, new_text).press_escape()
 
 
 def delete(text: str):
-    browser.all('#todo-list>li').element_by(have.exact_text(text)) \
+    todo_list.element_by(have.exact_text(text)) \
         .hover().element(".destroy").click()
