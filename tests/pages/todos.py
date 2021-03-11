@@ -1,4 +1,4 @@
-from selene import have
+from selene import have, command
 from selene.support.shared import browser
 
 todo_list = browser.all('#todo-list>li')
@@ -22,7 +22,7 @@ def should_have(*texts: str):
 def start_editing(text: str, new_text: str):
     todo_list.element_by(have.exact_text(text)).double_click()
     return todo_list.element_by(have.css_class('editing')) \
-        .element('.edit').type(new_text)
+        .element('.edit').perform(command.js.set_value(new_text))
 
 
 def edit(text: str, new_text: str):
