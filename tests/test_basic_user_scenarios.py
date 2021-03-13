@@ -1,19 +1,19 @@
-from tests.pages import todos
+from tests.pages import todomvc
 
 
 def test_basic_case():
-    todos.go_to()
+    todomvc.visit()
 
-    todos.adding('a', 'b', 'c')
-    todos.should_have('a', 'b', 'c')
+    todomvc.add('a', 'b', 'c')
+    todomvc.should_have('a', 'b', 'c')
 
-    todos.edit('b', 'b edited')
+    todomvc.edit('b', 'b edited')
 
-    todos.toggle('b edited')
-    todos.clear_completed()
-    todos.should_have('a', 'c')
+    todomvc.toggle('b edited')
+    todomvc.clear_completed()
+    todomvc.should_have('a', 'c')
 
-    todos.cancel_edit('c', 'c to be cancelled')
+    todomvc.cancel_edit('c', 'c to be cancelled')
 
-    todos.delete('c')
-    todos.should_have('a')
+    todomvc.delete_button('c')
+    todomvc.should_have('a')
