@@ -30,7 +30,7 @@ def test_edit_by_tab():
         .should_have_items_left(3)
 
 
-def test_cancel_edit_by_escape():
+def test_cancel_edit():
     todomvc.visit()
     todomvc.add('a', 'b', 'c')
 
@@ -55,34 +55,30 @@ def test_complete_one():
     todomvc.add('a', 'b', 'c')
     todomvc.toggle('a')
 
-    todomvc.should_been_completed('a')
-    todomvc.should_been_active('b', 'c')
+    todomvc.should_have_completed('a')
+    todomvc.should_have_active('b', 'c')
     todomvc.should_have_items_left(2)
 
 
 def test_activate_one():
     todomvc.visit()
     todomvc.add('a', 'b', 'c')
-    todomvc.toggle('a')
-    todomvc.toggle('b')
-    todomvc.toggle('c')
+    todomvc.toggle_all()
 
     todomvc.toggle('a')
 
-    todomvc.should_been_active('a')\
-        .should_been_completed('b', 'c')\
+    todomvc.should_have_active('a')\
+        .should_have_completed('b', 'c')\
         .should_have_items_left(1)
 
 
 def test_complete_all():
     todomvc.visit()
     todomvc.add('a', 'b', 'c')
-    todomvc.toggle('a')
-    todomvc.toggle('b')
-    todomvc.toggle('c')
+    todomvc.toggle_all()
 
-    todomvc.should_been_active()\
-        .should_been_completed('a', 'b', 'c')\
+    todomvc.should_have_active()\
+        .should_have_completed('a', 'b', 'c')\
         .should_have_items_left(0)
 
 
@@ -93,19 +89,20 @@ def test_activate_all():
 
     todomvc.toggle_all()
 
-    todomvc.should_been_active('a', 'b', 'c')\
-        .should_been_completed()\
+    todomvc.should_have_active('a', 'b', 'c')\
+        .should_have_completed()\
         .should_have_items_left(3)
 
 
-def test_by_clear_completed():
+def test_clear_completed():
     todomvc.visit()
-    todomvc.add('a', 'b', 'c')
+    todomvc.add('a', 'b', 'c', 'd')
     todomvc.toggle('c')
+    todomvc.toggle('d')
 
     todomvc.clear_completed()
 
-    todomvc.should_been_active('a', 'b')\
+    todomvc.should_have_active('a', 'b')\
         .should_have_items_left(2)
 
 
@@ -113,9 +110,9 @@ def test_by_button_delete():
     todomvc.visit()
     todomvc.add('a', 'b', 'c')
 
-    todomvc.delete_button('a')
+    todomvc.delete('a')
 
-    todomvc.should_been_active('b', 'c')\
+    todomvc.should_have('b', 'c')\
         .should_have_items_left(2)
 
 

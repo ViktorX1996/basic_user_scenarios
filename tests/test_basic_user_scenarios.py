@@ -15,5 +15,5 @@ def test_basic_case():
 
     todomvc.cancel_edit('c', 'c to be cancelled')
 
-    todomvc.delete_button('c')
+    todomvc.delete('c')
     todomvc.should_have('a')
