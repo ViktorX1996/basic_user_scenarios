@@ -53,6 +53,7 @@ def test_delete_by_edit_to_empty_field():
 def test_complete_one():
     todomvc.visit()
     todomvc.add('a', 'b', 'c')
+
     todomvc.toggle('a')
 
     todomvc.should_have_completed('a')
@@ -75,6 +76,7 @@ def test_activate_one():
 def test_complete_all():
     todomvc.visit()
     todomvc.add('a', 'b', 'c')
+
     todomvc.toggle_all()
 
     todomvc.should_have_active()\
