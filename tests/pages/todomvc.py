@@ -1,8 +1,6 @@
 from selene import have, command
 from selene.support.shared import browser
 
-todo_list = browser.all('#todo-list>li')
-
 
 class TodoMvc:
     def __init__(self):
@@ -20,7 +18,7 @@ class TodoMvc:
         return self
 
     def should_have(self, *texts):
-        todo_list.should(have.exact_texts(*texts))
+        self.todo_list.should(have.exact_texts(*texts))
         return self
 
     def should_have_items_left(self, amount: int):
